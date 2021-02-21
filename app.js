@@ -6,21 +6,21 @@ const mongoose = require('mongoose');
 const URL = "mongodb://localhost/tester_blog_app";
 
 
-app.set("view engine", "ejs");
+app.set('view engine', 'ejs');
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-// (async function() {
-//     try {
-//         await mongoose.connect(URL, { useNewUrlParser: true });
-//         return console.log(`Successfully connected your DB`);
-//     } catch (error) {
-//         console.log(error);
-//        return process.exit(1);
-//     }
+(async function() {
+    try {
+        await mongoose.connect(URL, { useNewUrlParser: true , useUnifiedTopology: true});
+        return console.log(`Successfully connected your DB`);
+    } catch (error) {
+        console.log(error);
+       return process.exit(1);
+    }
   
-// })();
+})();
 
 // const connectWithRetry = () => {
 //     console.log('MongoDB connection with retry')
@@ -42,17 +42,25 @@ const blogSchema = new mongoose.Schema({
     created: { type: Date, default: Date.now}
 });
 
-const Blog =  mongoose.model("Blog", blogSchema);
+const Blog =  mongoose.model('Blog', blogSchema);
 
 
 
 // RESTFUL ROUTES*************
-app.get("/blog", (req,res)=> {
 
-res.send("hello man");
-res.render("index");
-console.log("sent a request");
+app.get("/", (req,res)=> {
+    res.redirect("/blogs");
+});
 
+app.get("/blogs", (req,res)=>{
+
+    Blog.find({}, (error,blogs)=> {
+        if(error){
+            console.log("error!!", error);
+        } else{
+            res.render("index", { blogs:blogs })
+        }
+    })
 });
 
 app.listen(PORT, ()=>{
