@@ -1,25 +1,25 @@
-const bodyParser = require('body-parser');
-const express = require('express');
+const bodyParser = require("body-parser");
+const express = require("express");
 const app = express();
 const PORT = 4000;
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const URL = "mongodb://localhost/tester_blog_app";
 
-
-app.set('view engine', 'ejs');
-app.use(express.static('public'));
+app.set("view engine", "ejs");
+app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
 (async function () {
-    try {
-        await mongoose.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true });
-        return console.log(`Successfully connected your DB ${URL}`);
-    } catch (error) {
-        console.log(error);
-        return process.exit(1);
-    }
-
+  try {
+    await mongoose.connect(URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    return console.log(`Successfully connected your DB ${URL}`);
+  } catch (error) {
+    console.log(error);
+    return process.exit(1);
+  }
 })();
 
 // const connectWithRetry = () => {
@@ -36,33 +36,47 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // MOGOOSE/MODEL CONFIG
 const blogSchema = new mongoose.Schema({
-    title: String,
-    body: String,
-    image: String,
-    created: { type: Date, default: Date.now }
+  title: String,
+  body: String,
+  image: String,
+  created: { type: Date, default: Date.now },
 });
 
-const Blog = mongoose.model('Blog', blogSchema);
-
-
+const Blog = mongoose.model("Blog", blogSchema);
 
 // RESTFUL ROUTES*************
 
 app.get("/", (req, res) => {
-    res.redirect("/blogs");
+  res.redirect("/blogs");
 });
 
+// INDEX ROUTE
 app.get("/blogs", (req, res) => {
+  Blog.find({}, (error, blogs) => {
+    if (error) {
+      console.log("error!!", error);
+    } else {
+      res.render("index", { blogs: blogs });
+    }
+  });
+});
 
-    Blog.find({}, (error, blogs) => {
-        if (error) {
-            console.log("error!!", error);
-        } else {
-            res.render("index", { blogs: blogs })
-        }
-    });
+// NEW ROUTE
+app.get("/blogs/new", (req, res) => {
+  res.render("new");
+});
+
+// CREATE ROUTE
+app.post("/blogs", (req, res) => {
+  Blog.create(req.body.blog, (err, newBlog) => {
+    if (err) {
+      console.log("error", err);
+    } else {
+      res.redirect("/blogs");
+    }
+  });
 });
 
 app.listen(PORT, () => {
-    console.log(`Your blog is running on localhost:${PORT}`);
+  console.log(`Your blog is running on localhost:${PORT}`);
 });
