@@ -7,19 +7,19 @@ const URL = "mongodb://localhost/tester_blog_app";
 
 
 app.set('view engine', 'ejs');
-app.use(express.static("public"));
+app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-(async function() {
+(async function () {
     try {
-        await mongoose.connect(URL, { useNewUrlParser: true , useUnifiedTopology: true});
-        return console.log(`Successfully connected your DB`);
+        await mongoose.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true });
+        return console.log(`Successfully connected your DB ${URL}`);
     } catch (error) {
         console.log(error);
-       return process.exit(1);
+        return process.exit(1);
     }
-  
+
 })();
 
 // const connectWithRetry = () => {
@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //       setTimeout(connectWithRetry, 5000)
 //     })
 //   }
-  
+
 //   connectWithRetry()
 
 // MOGOOSE/MODEL CONFIG
@@ -39,30 +39,30 @@ const blogSchema = new mongoose.Schema({
     title: String,
     body: String,
     image: String,
-    created: { type: Date, default: Date.now}
+    created: { type: Date, default: Date.now }
 });
 
-const Blog =  mongoose.model('Blog', blogSchema);
+const Blog = mongoose.model('Blog', blogSchema);
 
 
 
 // RESTFUL ROUTES*************
 
-app.get("/", (req,res)=> {
+app.get("/", (req, res) => {
     res.redirect("/blogs");
 });
 
-app.get("/blogs", (req,res)=>{
+app.get("/blogs", (req, res) => {
 
-    Blog.find({}, (error,blogs)=> {
-        if(error){
+    Blog.find({}, (error, blogs) => {
+        if (error) {
             console.log("error!!", error);
-        } else{
-            res.render("index", { blogs:blogs })
+        } else {
+            res.render("index", { blogs: blogs })
         }
-    })
+    });
 });
 
-app.listen(PORT, ()=>{
+app.listen(PORT, () => {
     console.log(`Your blog is running on localhost:${PORT}`);
 });
