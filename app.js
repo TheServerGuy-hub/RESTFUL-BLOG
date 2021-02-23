@@ -72,9 +72,24 @@ app.post("/blogs", (req, res) => {
     if (err) {
       console.log("error", err);
     } else {
-      res.redirect("/blogs");
+      res.redirect("/blogs"); 
     }
   });
+});
+
+// AHOW ROUTE
+app.get("/blogs/:id", (req,res)=>{
+
+  Blog.findById(req.params.id, (err, foundBlog)=>{
+    if(err){
+      console.log("error", err);
+      res.redirect("/blogs");
+    }else {
+      res.render("show", {blog: foundBlog});
+    }
+
+  })
+  //res.send("SHOW PAGE")
 });
 
 app.listen(PORT, () => {
