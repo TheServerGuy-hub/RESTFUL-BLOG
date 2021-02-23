@@ -80,6 +80,8 @@ app.post("/blogs", (req, res) => {
 // AHOW ROUTE
 app.get("/blogs/:id", (req,res)=>{
 
+
+
   Blog.findById(req.params.id, (err, foundBlog)=>{
     if(err){
       console.log("error", err);
@@ -88,8 +90,7 @@ app.get("/blogs/:id", (req,res)=>{
       res.render("show", {blog: foundBlog});
     }
 
-  })
-  //res.send("SHOW PAGE")
+  });
 });
 
 app.listen(PORT, () => {
