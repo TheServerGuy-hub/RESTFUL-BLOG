@@ -77,7 +77,7 @@ app.post("/blogs", (req, res) => {
   });
 });
 
-// AHOW ROUTE
+// SHOW ROUTE
 app.get("/blogs/:id", (req,res)=>{
 
 
@@ -91,6 +91,11 @@ app.get("/blogs/:id", (req,res)=>{
     }
 
   });
+});
+
+// EDIT ROUTES
+app.get("blogs/:id/edit" (req,res)=>{
+  res.render("edit");
 });
 
 app.listen(PORT, () => {
