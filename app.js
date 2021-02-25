@@ -94,9 +94,22 @@ app.get("/blogs/:id", (req,res)=>{
 });
 
 // EDIT ROUTES
-app.get("blogs/:id/edit" (req,res)=>{
-  res.render("edit");
+app.get("/blogs/:id/edit", (req,res)=>{
+  
+
+  Blog.findById(req.params.id, (err, foundBlog)=>{
+   
+    if(err){
+      res.redirect("/blogs")
+      console.log("error", err);
+    }else{
+      res.render("edit", {blog: foundBlog});
+    }
+  });
 });
+
+
+
 
 app.listen(PORT, () => {
   console.log(`Your blog is running on localhost:${PORT}`);
