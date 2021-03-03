@@ -6,9 +6,9 @@
         <h2> <%= blog.title  %> </h2>
             <img src=" <%= blog.image %> " alt="nothing">
             <span> <%= blog.created %> </span>
-            <p> <%= blog.body %> </p>  
+            <p> <%= blog.body.substr(0, 23) + "..."%> </p>  
             <a href="/blogs/<%= blog._id %>">Read More</a> 
-            <a href="/blogs/<%= blog.id %>/edit" > edit</a> 
+            <a href="/blogs/<%= blog.id %>/edit" > Edit</a> 
     </div>
 <% }) %>
 <%- include ("partials/footer")  -%> 
