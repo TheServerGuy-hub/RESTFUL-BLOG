@@ -11,10 +11,10 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({ extended: true }));
-mongoose.set("useNewUrlParser", true);
-mongoose.set("useFindAndModify", false);
-mongoose.set("useCreateIndex", true);
-mongoose.set("useUnifiedTopology", true);
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
 
 (async function () {
   try {
@@ -79,45 +79,53 @@ app.post("/blogs", (req, res) => {
     if (err) {
       console.log("error", err);
     } else {
-      res.redirect("/blogs");
+      res.redirect("/blogs"); 
     }
   });
 });
 
 // SHOW ROUTE
-app.get("/blogs/:id", (req, res) => {
-  Blog.findById(req.params.id, (err, foundBlog) => {
-    if (err) {
+app.get("/blogs/:id", (req,res)=>{
+
+
+
+  Blog.findById(req.params.id, (err, foundBlog)=>{
+    if(err){
       console.log("error", err);
       res.redirect("/blogs");
-    } else {
-      res.render("show", { blog: foundBlog });
+    }else {
+      res.render("show", {blog: foundBlog});
     }
+
   });
 });
 
 // EDIT ROUTES
-app.get("/blogs/:id/edit", (req, res) => {
-  Blog.findById(req.params.id, (err, foundBlog) => {
-    if (err) {
-      res.redirect("/blogs");
+app.get("/blogs/:id/edit", (req,res)=>{
+  
+
+  Blog.findById(req.params.id, (err, foundBlog)=>{
+   
+    if(err){
+      res.redirect("/blogs")
       console.log("error", err);
-    } else {
-      res.render("edit", { blog: foundBlog });
+    }else{
+      res.render("edit", {blog: foundBlog});
     }
   });
 });
 
+
 // UPDATE ROUTE
-app.put("/blogs/:id", (req, res) => {
-  Blog.findByIdAndUpdate(req.params.id, req.body.blog, (err, updatedBlog) => {
-    if (err) {
-      console.log("error".err);
+app.put("/blogs/:id", (req, res)=>{
+  Blog.findByIdAndUpdate(req.params.id, req.body.blog, (err,updatedBlog )=>{
+    if(err){
+      console.log("error". err);
       res.redirect("/blogs");
-    } else {
+    }else{
       res.redirect("/blogs/" + req.params.id);
     }
-  });
+  })
 });
 
 app.listen(PORT, () => {
