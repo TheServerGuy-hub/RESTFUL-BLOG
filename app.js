@@ -77,7 +77,7 @@ app.get("/blogs/new", (req, res) => {
 
 // CREATE ROUTE
 app.post("/blogs", (req, res) => {
-    req.body.blog.body = req.sanitize(  req.body.blog.body )
+  req.body.blog.body = req.sanitize(req.body.blog.body);
   Blog.create(req.body.blog, (err, newBlog) => {
     if (err) {
       console.log("error", err);
@@ -124,18 +124,15 @@ app.put("/blogs/:id", (req, res) => {
 });
 
 // DELETE ROUTE
-app.delete("/blogs/:id", (req, res)=> {
-     
-     Blog.findByIdAndRemove(req.params.id, (err)=>{
-         if (err){
-             res.redirect("blogs");
-         }
-         else {
-             res.redirect("blogs");
-         }   
-     })
+app.delete("/blogs/:id", (req, res) => {
+  Blog.findByIdAndRemove(req.params.id, (err) => {
+    if (err) {
+      res.redirect("blogs");
+    } else {
+      res.redirect("blogs");
+    }
+  });
 });
-
 
 app.listen(PORT, () => {
   console.log(`Your blog is running on localhost:${PORT}`);
