@@ -1,5 +1,6 @@
 const bodyParser = require("body-parser");
 const express = require("express");
+const expressSanitizer = require("express-sanitizer");
 const app = express();
 const PORT = 4000;
 const mongoose = require("mongoose");
@@ -11,6 +12,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(expressSanitizer());
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
@@ -75,6 +77,7 @@ app.get("/blogs/new", (req, res) => {
 
 // CREATE ROUTE
 app.post("/blogs", (req, res) => {
+    req.body.blog.body = req.sanitize(  req.body.blog.body )
   Blog.create(req.body.blog, (err, newBlog) => {
     if (err) {
       console.log("error", err);
@@ -122,7 +125,7 @@ app.put("/blogs/:id", (req, res) => {
 
 // DELETE ROUTE
 app.delete("/blogs/:id", (req, res)=> {
-     (console.log(req.params.id))
+     
      Blog.findByIdAndRemove(req.params.id, (err)=>{
          if (err){
              res.redirect("blogs");
@@ -131,7 +134,8 @@ app.delete("/blogs/:id", (req, res)=> {
              res.redirect("blogs");
          }   
      })
-})
+});
+
 
 app.listen(PORT, () => {
   console.log(`Your blog is running on localhost:${PORT}`);
