@@ -1,5 +1,4 @@
 const blog = require("../models/blogModel");
-const methodOverride = require("method-override");
 
 module.exports = {
   // RESTFUL ROUTES*************

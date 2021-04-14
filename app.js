@@ -12,9 +12,10 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({ extended: true }));
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
+mongoose.set("useFindAndModify", false);
+mongoose.set("useCreateIndex", true);
 
+//CONNECT TO DATABASE
 (async function () {
   try {
     await mongoose.connect(URL, {
@@ -28,7 +29,6 @@ mongoose.set('useCreateIndex', true);
   }
 })();
 
-
 // RESTFUL ROUTES*************
 
 app.use("/", blogRoutes.router);
@@ -36,4 +36,3 @@ app.use("/", blogRoutes.router);
 app.listen(PORT, () => {
   console.log(`Your blog is running on localhost:${PORT}`);
 });
-

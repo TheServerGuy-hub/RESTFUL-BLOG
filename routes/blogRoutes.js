@@ -8,7 +8,7 @@ router.get("/blogs/new", blogController.newBlog);
 router.get("/blogs/:id", blogController.showBlog);
 router.get("/blogs/:id/edit", blogController.editBlog);
 
-router.post("/post", blogController.createBlog);
+router.post("/blogs/new", blogController.createBlog);
 router.put("/blogs/:id", blogController.updateBlog);
 router.delete("/blogs/:id", blogController.deleteBlog);
 
