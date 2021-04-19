@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const PORT = 4000;
 const blogRoutes = require("./routes/blogRoutes");
+const userRoutes = require("./routes/userRoutes");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const URL = "mongodb://localhost/tester_blog_app";
@@ -32,6 +33,7 @@ mongoose.set("useCreateIndex", true);
 // RESTFUL ROUTES*************
 
 app.use("/", blogRoutes.router);
+app.use("/", userRoutes.router);
 
 app.listen(PORT, () => {
   console.log(`Your blog is running on localhost:${PORT}`);
