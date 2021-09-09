@@ -7,6 +7,10 @@ module.exports = {
   getForm: async (req, res) => {
     res.render("loginPage");
   },
+  
+    getRegisterForm: async (req, res) => {
+    res.render("registerPage");
+  },
 
   createUser: async (req, res) => {
     const person = new User.userModel();
