@@ -7,7 +7,7 @@ const blogRoutes = require("./routes/blogRoutes");
 const userRoutes = require("./routes/userRoutes");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
-const URL = "mongodb://localhost/tester_blog_app";
+const URL = process.env.MONGO_URL;
 
 //  APP CONFIG
 app.set("view engine", "ejs");
